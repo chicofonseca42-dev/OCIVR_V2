@@ -39,6 +39,9 @@
             android:name=".ConfiguracoesActivity"
             android:exported="false" />
         <activity
+            android:name=".PrevencaoActivity"
+            android:exported="false" />
+        <activity
             android:name=".TodosSitesActivity"
             android:exported="false" />
         <activity

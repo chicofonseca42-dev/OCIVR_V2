@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">OCIVR</string>
-
-
     <string name="agendamentos">Agendamentos</string>
     <string name="todos_sites">Todos os Sites</string>
     <string name="cadastro">Cadastro</string>
@@ -35,6 +33,4 @@
     <string name="ultima_atualizacao">Última atualização: %1$s</string>
     <string name="semana_atual">Semana Atual</string>
     <string name="turno_tarde">TARDE</string>
-
-
 </resources>

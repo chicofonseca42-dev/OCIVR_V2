@@ -1,67 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="top"
-    android:padding="14dp"
-    android:background="#0B1E3A">
+    android:background="#0F172A">
 
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_ocivr"
-        android:adjustViewBounds="true"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="@string/logotipo_ocivr" />
-
+    <!-- ═══════════════════════════════════════ -->
+    <!-- LOGO OCIVR                             -->
+    <!-- ═══════════════════════════════════════ -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="24dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/btnRedeMovel"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/rede_movel"
-            android:textSize="20sp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OCI"
+            android:textSize="32sp"
+            android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif-medium"
-            android:background="@drawable/bg_button_ocivr"
-            android:elevation="6dp"
-            android:layout_marginBottom="20dp"/>
+            android:letterSpacing="0.05"
+            android:fontFamily="sans-serif-condensed"/>
 
-        <Button
-            android:id="@+id/btnRedeSiresp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/rede_siresp"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif-medium"
-            android:background="@drawable/bg_button_ocivr"
-            android:elevation="6dp"
-            android:layout_marginBottom="20dp"/>
-
-        <Button
-            android:id="@+id/btnRedeFixa"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/rede_fixa"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif-medium"
-            android:background="@drawable/bg_button_ocivr"
-            android:elevation="6dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VR"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#4DD0E1"
+            android:letterSpacing="0.05"
+            android:fontFamily="sans-serif-condensed"/>
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SCROLL PRINCIPAL                        -->
+    <!-- ═══════════════════════════════════════ -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="120dp"
+            android:paddingBottom="30dp">
+
+            <!-- REDE MÓVEL -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnRedeMovel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:rippleColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#12FFFFFF"
+                app:cardElevation="0dp"
+                app:strokeColor="#4DD0E1"
+                app:strokeWidth="1.5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rede_movel"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="›"
+                        android:textSize="22sp"
+                        android:textColor="#44FFFFFF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- REDE SIReSP -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnRedeSiresp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:rippleColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#12FFFFFF"
+                app:cardElevation="0dp"
+                app:strokeColor="#4DD0E1"
+                app:strokeWidth="1.5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rede_siresp"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="›"
+                        android:textSize="22sp"
+                        android:textColor="#44FFFFFF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- REDE FIXA -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnRedeFixa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:rippleColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#12FFFFFF"
+                app:cardElevation="0dp"
+                app:strokeColor="#4DD0E1"
+                app:strokeWidth="1.5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rede_fixa"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="›"
+                        android:textSize="22sp"
+                        android:textColor="#44FFFFFF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- LOGO MEO                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MEO"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="#B0BEC5"
+        android:letterSpacing="0.08"
+        android:fontFamily="@font/exo2_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="40dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

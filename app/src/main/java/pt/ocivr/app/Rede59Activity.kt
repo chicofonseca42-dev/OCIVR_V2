@@ -20,9 +20,8 @@ class Rede59Activity : AppCompatActivity() {
 
         val main = findViewById<View>(R.id.main)
         val grid = findViewById<GridLayout>(R.id.gridRede)
-        val btnVoltar = findViewById<Button>(R.id.btnVoltar)
 
-        // 👉 ORDEM VISUAL FIXA
+
         val botoes = listOf(
             "59AJ01","59MR01","59VM01",
             "59AJ02","59PG01","59VP01",
@@ -36,7 +35,6 @@ class Rede59Activity : AppCompatActivity() {
             "59JU01","","59VR07"
         )
 
-        // 👉 BOTÃO → LINK
         val links = mapOf(
             "59AJ01" to "https://docs.google.com/spreadsheets/d/1xGidkES2GhW3Tp6FShAdp74ulCW__BQobPDI4LtXRKY/edit?gid=1235425075#gid=1235425075",
             "59MR01" to "https://docs.google.com/spreadsheets/d/1mw9fFBVcwgGJ8hdShPkZDzYsq7BJ2OHTCodn2uQWuS4/edit?gid=1057174623#gid=1057174623",
@@ -69,15 +67,13 @@ class Rede59Activity : AppCompatActivity() {
             "59VR07" to "https://docs.google.com/spreadsheets/d/1tzzZnxXcuagn5NIvMUej50_RqGW6rkdFlQYmxaKL0Dg/edit?gid=1541379891#gid=1541379891"
         )
 
-        // 👉 CRIAR BOTÕES
         for (nome in botoes) {
 
-            // espaço vazio (alinhamento)
+            // Espaço vazio (alinhamento)
             if (nome.isBlank()) {
                 val vazio = Button(this)
                 vazio.isEnabled = false
                 vazio.setBackgroundColor(Color.TRANSPARENT)
-
                 val p = GridLayout.LayoutParams().apply {
                     width = 0
                     columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
@@ -90,7 +86,6 @@ class Rede59Activity : AppCompatActivity() {
             val btn = Button(this).apply {
                 text = nome
                 setTextColor("#F5F5F5".toColorInt())
-
                 setBackgroundColor(Color.TRANSPARENT)
                 textSize = 16f
                 isAllCaps = false
@@ -107,32 +102,17 @@ class Rede59Activity : AppCompatActivity() {
             btn.setOnClickListener {
                 feedback(btn)
                 links[nome]?.let { url ->
+                    // ✅ BUG CORRIGIDO: startActivity adicionado
                     btn.postDelayed({
-                        Intent(Intent.ACTION_VIEW, url.toUri())
-
+                        startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
                     }, 120)
                 }
             }
 
             grid.addView(btn)
         }
-
-        // 👉 VOLTAR
-        btnVoltar.setOnClickListener {
-            feedback(btnVoltar)
-            btnVoltar.postDelayed({ finish() }, 120)
-        }
-
-        // 👉 AJUSTE AUTOMÁTICO (S24 / A13)
-        ViewCompat.setOnApplyWindowInsetsListener(main) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            btnVoltar.translationY = -16f
-            insets
-        }
     }
 
-    // 👉 FEEDBACK VISUAL
     private fun feedback(btn: Button) {
         btn.alpha = 0.6f
         btn.animate()

@@ -20,26 +20,15 @@ class Rede54Activity : AppCompatActivity() {
 
         val main = findViewById<View>(R.id.main)
         val grid = findViewById<GridLayout>(R.id.gridRede)
-        val btnVoltar = findViewById<Button>(R.id.btnVoltar)
 
-        // 👉 ORDEM VISUAL FIXA
+
         val botoes = listOf(
-            "54RG01","54RG02","54RG03",
-            "54AM01","54AS01","54CS01",
-            "54GS01","54LG01","54LG02",
-            "54MB01","54MB02","54MB03",
-            "54MJ01","54MJ02","54PB01",
-            "54PN01","54RD01","54RD02",
-            "54SL01","54SL02","54SM01",
-            "54SM02","54VL01","54PC01",
-            "54MZ01","54MZ02","54PJ01",
-            "54PS01","54SC01","54SP01",
-            "54ST01","54SZ01","54SZ02",
-            "54TB01","54TR01","54TR02",
-            "54PI01"
+            "54RG01","54RG02","54RG03","54AM01","54AS01","54CS01","54GS01","54LG01","54LG02",
+            "54MB01","54MB02","54MB03","54MJ01","54MJ02","54PB01","54PN01","54RD01","54RD02",
+            "54SL01","54SL02","54SM01","54SM02","54VL01","54PC01","54MZ01","54MZ02","54PJ01",
+            "54PS01","54SC01","54SP01","54ST01","54SZ01","54SZ02","54TB01","54TR01","54TR02","54PI01"
         )
 
-        // 👉 BOTÃO → LINK
         val links = mapOf(
             "54RG01" to "https://docs.google.com/spreadsheets/d/1kCrCKKewhm5fvNXjvtLX5k3mpsSE-_CmA8Yg5VkUVb8/edit?gid=1509660899#gid=1509660899",
             "54RG02" to "https://docs.google.com/spreadsheets/d/1PxBaFOn5dBf-to77i8ZSOZQvPlDyCQy9cF6Q5UMBiDk/edit?gid=572026419#gid=572026419",
@@ -80,75 +69,30 @@ class Rede54Activity : AppCompatActivity() {
             "54PI01" to "https://docs.google.com/spreadsheets/d/1FOjheqboeDS6stUAYB_BP7AeZDe3hWhN1-D5E3c8RH8/edit?gid=1446719977#gid=1446719977"
         )
 
-        // 👉 CRIAÇÃO DOS BOTÕES
         for (nome in botoes) {
-
             val btn = Button(this).apply {
-                text = nome
-                setTextColor("#F5F5F5".toColorInt())
-                setBackgroundColor(Color.TRANSPARENT)
-                textSize = 16f
-                isAllCaps = false
-                setShadowLayer(4f, 2f, 2f, Color.BLACK)
+                text = nome; setTextColor("#F5F5F5".toColorInt()); setBackgroundColor(Color.TRANSPARENT)
+                textSize = 16f; isAllCaps = false; setShadowLayer(4f, 2f, 2f, Color.BLACK)
             }
-
             val params = GridLayout.LayoutParams().apply {
-                width = 0
-                setMargins(6, 4, 6, 4)
-                columnSpec =
-                    if (nome == "54PI01") GridLayout.spec(2, 1f)
-                    else GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                width = 0; setMargins(6, 4, 6, 4)
+                columnSpec = if (nome == "54PI01") GridLayout.spec(2, 1f) else GridLayout.spec(GridLayout.UNDEFINED, 1f)
             }
-
             btn.layoutParams = params
-
             btn.setOnClickListener {
                 feedback(btn)
-                links[nome]?.let { url ->
-                    btn.postDelayed({
-                        startActivity(
-                            Intent(Intent.ACTION_VIEW, url.toUri())
-
-                        )
-                    }, 120)
-                }
+                links[nome]?.let { url -> btn.postDelayed({ startActivity(Intent(Intent.ACTION_VIEW, url.toUri())) }, 120) }
             }
-
             grid.addView(btn)
         }
 
-        // 👉 VOLTAR
-        btnVoltar.setOnClickListener {
-            feedback(btnVoltar)
-            btnVoltar.postDelayed({
-                finish()
-            }, 120)
-        }
-
-        // 👉 AJUSTE AUTOMÁTICO (S24 / A13)
-        ViewCompat.setOnApplyWindowInsetsListener(main) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            btnVoltar.translationY = -16f
-            insets
         }
     }
 
-    // 👉 FEEDBACK VISUAL (CLIQUE)
     private fun feedback(btn: Button) {
         btn.alpha = 0.6f
-        btn.animate()
-            .scaleX(0.96f)
-            .scaleY(0.96f)
-            .setDuration(90)
-            .withEndAction {
-                btn.alpha = 1f
-                btn.animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(90)
-                    .start()
-            }
-            .start()
+        btn.animate().scaleX(0.96f).scaleY(0.96f).setDuration(90).withEndAction {
+            btn.alpha = 1f; btn.animate().scaleX(1f).scaleY(1f).setDuration(90).start()
+        }.start()
     }
-}
+

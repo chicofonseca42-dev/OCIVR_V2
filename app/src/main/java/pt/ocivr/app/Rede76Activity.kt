@@ -20,9 +20,8 @@ class Rede76Activity : AppCompatActivity() {
 
         val main = findViewById<View>(R.id.main)
         val grid = findViewById<GridLayout>(R.id.gridRede)
-        val btnVoltar = findViewById<Button>(R.id.btnVoltar)
 
-        // 👉 ORDEM VISUAL FIXA
+
         val botoes = listOf(
             "76CHO1","76ABO1","76SVO1",
             "76CHO2","76PSO1","76CAO1",
@@ -34,7 +33,6 @@ class Rede76Activity : AppCompatActivity() {
             "","","76TMO1"
         )
 
-        // 👉 BOTÃO → LINK
         val links = mapOf(
             "76CHO1" to "https://docs.google.com/spreadsheets/d/1J-OOZSX871pgxyt03r0bFdxHWi_HkKcYs4N7q_0-iRw/edit?gid=588980668#gid=588980668",
             "76ABO1" to "https://docs.google.com/spreadsheets/d/1t5kjU9Se-8MNz6au4bZ2i0iZnZ3T_ZV_Fc_9tqMha_k/edit?gid=837619980#gid=837619980",
@@ -57,17 +55,15 @@ class Rede76Activity : AppCompatActivity() {
             "76BCO1" to "https://docs.google.com/spreadsheets/d/1UQPZtdaeV8xLrFt9ggbzfG39IT5pDTmRY9O8DrLli0w/edit?gid=1355085799#gid=1355085799",
             "76NMO1" to "https://docs.google.com/spreadsheets/d/1RTX4G687VW1FqazioshaJ9bXbjxZRAwqBCaKiCBxDc4/edit?gid=640522571#gid=640522571",
             "76AFO1" to "https://docs.google.com/spreadsheets/d/1u896wk5FfOT1xdLjAA2oPuraMXS4KDJf8o2d4TFb29s/edit?gid=56356397#gid=56356397",
-            "76TMO1" to "https://docs.google.com/spreadsheets/d/1FicaS2c0QgCV3bXHErdHfrtarfKwlcLZV0eNir-CkPE/edit?gid=2015230735#gid=2015230735",
+            "76TMO1" to "https://docs.google.com/spreadsheets/d/1FicaS2c0QgCV3bXHErdHfrtarfKwlcLZV0eNir-CkPE/edit?gid=2015230735#gid=2015230735"
         )
 
-        // 👉 CRIAR BOTÕES
         for (nome in botoes) {
 
             if (nome.isBlank()) {
                 val vazio = Button(this)
                 vazio.isEnabled = false
                 vazio.setBackgroundColor(Color.TRANSPARENT)
-
                 val p = GridLayout.LayoutParams().apply {
                     width = 0
                     columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
@@ -96,32 +92,17 @@ class Rede76Activity : AppCompatActivity() {
             btn.setOnClickListener {
                 feedback(btn)
                 links[nome]?.let { url ->
+                    // ✅ BUG CORRIGIDO: startActivity adicionado
                     btn.postDelayed({
-                        Intent(Intent.ACTION_VIEW, url.toUri())
-
+                        startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
                     }, 120)
                 }
             }
 
             grid.addView(btn)
         }
-
-        // 👉 VOLTAR
-        btnVoltar.setOnClickListener {
-            feedback(btnVoltar)
-            btnVoltar.postDelayed({ finish() }, 120)
-        }
-
-        // 👉 AJUSTE AUTOMÁTICO (todos os equipamentos)
-        ViewCompat.setOnApplyWindowInsetsListener(main) { v, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            btnVoltar.translationY = -16f
-            insets
-        }
     }
 
-    // 👉 FEEDBACK VISUAL (subtil)
     private fun feedback(btn: Button) {
         btn.alpha = 0.6f
         btn.animate()

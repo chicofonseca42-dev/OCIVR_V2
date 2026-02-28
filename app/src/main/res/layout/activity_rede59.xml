@@ -4,29 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0F172A">
 
-    <!-- FUNDO -->
-    <ImageView
-        android:id="@+id/bgImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/ecracorreto"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- SCROLL + GRID (NOVO, É AQUI QUE ENTRAM OS 37 BOTÕES) -->
+
+
     <ScrollView
         android:id="@+id/scrollRede"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:contentDescription="Lista de locais da Rede 54"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnVoltar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -38,34 +28,7 @@
             android:rowCount="13"
             android:paddingTop="120dp"
             android:paddingBottom="80dp"
-            android:useDefaultMargins="false" />
-
+            android:useDefaultMargins="false"/>
     </ScrollView>
-
-    <!-- VOLTAR -->
-    <Button
-        android:id="@+id/btnVoltar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:text="Voltar"
-        android:textColor="#F0F0F0"
-
-        android:textSize="26sp"
-
-        android:shadowColor="#CC000000"
-        android:shadowDx="2"
-        android:shadowDy="3"
-        android:shadowRadius="7"
-
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

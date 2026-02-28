@@ -2,13 +2,11 @@ package pt.ocivr.app
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import okhttp3.*
 import java.io.IOException
 
@@ -21,22 +19,15 @@ class PesquisaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_pesquisa)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        val btnPesquisar = findViewById<Button>(R.id.btnPesquisar)
+        val btnPesquisar = findViewById<View>(R.id.btnPesquisar)
         val etNumero = findViewById<EditText>(R.id.etNumero)
         val container = findViewById<LinearLayout>(R.id.containerResultados)
 
         btnPesquisar.setOnClickListener {
 
-            // Fechar teclado
+            // Esconde teclado
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
@@ -58,15 +49,16 @@ class PesquisaActivity : AppCompatActivity() {
                     }
 
                     for (item in resultados) {
-                        val card = criarCard(
-                            numero = item["numero"] ?: "",
-                            odf = item["odf"] ?: "",
-                            posicao = item["posicoes"] ?: "",
-                            mfr = item["mfr"] ?: "",
-                            sb = item["sb"] ?: "",
-                            rede = item["rede"] ?: ""
+                        container.addView(
+                            criarCard(
+                                item["numero"] ?: "",
+                                item["odf"] ?: "",
+                                item["posicoes"] ?: "",
+                                item["mfr"] ?: "",
+                                item["sb"] ?: "",
+                                item["rede"] ?: ""
+                            )
                         )
-                        container.addView(card)
                     }
                 }
             }
@@ -77,7 +69,6 @@ class PesquisaActivity : AppCompatActivity() {
         numero: String,
         callback: (List<Map<String, String>>) -> Unit
     ) {
-
         val cacheLocal = lerCache()
 
         if (cacheLocal != null) {
@@ -86,25 +77,25 @@ class PesquisaActivity : AppCompatActivity() {
         }
 
         val client = OkHttpClient()
-        val request = Request.Builder().url(sheetUrl).build()
 
-        client.newCall(request).enqueue(object : Callback {
+        client.newCall(Request.Builder().url(sheetUrl).build())
+            .enqueue(object : Callback {
 
-            override fun onFailure(call: Call, e: IOException) {
-                callback(emptyList())
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-
-                if (body != null) {
-                    guardarCache(body)
-                    processarCSV(body, numero, callback)
-                } else {
+                override fun onFailure(call: Call, e: IOException) {
                     callback(emptyList())
                 }
-            }
-        })
+
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+
+                    if (body != null) {
+                        guardarCache(body)
+                        processarCSV(body, numero, callback)
+                    } else {
+                        callback(emptyList())
+                    }
+                }
+            })
     }
 
     private fun processarCSV(
@@ -112,13 +103,11 @@ class PesquisaActivity : AppCompatActivity() {
         numero: String,
         callback: (List<Map<String, String>>) -> Unit
     ) {
-
         val grupos = mutableMapOf<String, MutableList<String>>()
         val dadosBase = mutableMapOf<String, List<String>>()
 
-        val linhas = body.split("\n")
+        for (linha in body.split("\n").drop(1)) {
 
-        for (linha in linhas.drop(1)) {
             val colunas = linha.split(",")
 
             if (colunas.size >= 7 &&
@@ -140,21 +129,19 @@ class PesquisaActivity : AppCompatActivity() {
         val resultadoFinal = mutableListOf<Map<String, String>>()
 
         for (chave in grupos.keys) {
+
             val base = dadosBase[chave]!!
 
-            val posicoes = grupos[chave]!!
-                .sortedBy { it.toIntOrNull() ?: 0 }
-                .joinToString(" e ")
-
-            val sbLimpo = base[4]
-                .replace("SB", "", ignoreCase = true)
-                .trim()
+            val posicoes =
+                grupos[chave]!!
+                    .sortedBy { it.toIntOrNull() ?: 0 }
+                    .joinToString(" e ")
 
             resultadoFinal.add(
                 mapOf(
                     "numero" to base[0],
                     "odf" to base[5],
-                    "sb" to sbLimpo,
+                    "sb" to base[4].replace("SB", "", true).trim(),
                     "mfr" to base[3],
                     "rede" to base[6],
                     "posicoes" to posicoes
@@ -166,19 +153,18 @@ class PesquisaActivity : AppCompatActivity() {
     }
 
     private fun guardarCache(conteudo: String) {
-        openFileOutput(nomeFicheiroCache, MODE_PRIVATE).use {
-            it.write(conteudo.toByteArray())
-        }
+        openFileOutput(nomeFicheiroCache, MODE_PRIVATE)
+            .use { it.write(conteudo.toByteArray()) }
     }
 
-    private fun lerCache(): String? {
-        return try {
-            openFileInput(nomeFicheiroCache).bufferedReader().use { it.readText() }
+    private fun lerCache(): String? =
+        try {
+            openFileInput(nomeFicheiroCache)
+                .bufferedReader()
+                .use { it.readText() }
         } catch (_: Exception) {
-
             null
         }
-    }
 
     private fun criarCard(
         numero: String,
@@ -189,21 +175,24 @@ class PesquisaActivity : AppCompatActivity() {
         rede: String
     ): CardView {
 
-        val card = CardView(this)
-        card.radius = 24f
-        card.cardElevation = 12f
-        card.setCardBackgroundColor(Color.WHITE)
+        val card = CardView(this).apply {
+            radius = 24f
+            cardElevation = 12f
+            setCardBackgroundColor(Color.WHITE)
+        }
 
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
+
         params.setMargins(0, 0, 0, 40)
         card.layoutParams = params
 
-        val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(40, 40, 40, 40)
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(40, 40, 40, 40)
+        }
 
         layout.addView(criarTexto("Número: $numero", true))
         layout.addView(criarTexto("ODF: $odf"))
@@ -217,12 +206,21 @@ class PesquisaActivity : AppCompatActivity() {
         return card
     }
 
-    private fun criarTexto(texto: String, titulo: Boolean = false): TextView {
+    private fun criarTexto(
+        texto: String,
+        titulo: Boolean = false
+    ): TextView {
+
         val tv = TextView(this)
+
         tv.text = texto
         tv.setTextColor(Color.BLACK)
         tv.textSize = if (titulo) 18f else 16f
-        if (titulo) tv.setPadding(0, 0, 0, 20)
+
+        if (titulo) {
+            tv.setPadding(0, 0, 0, 20)
+        }
+
         return tv
     }
 }

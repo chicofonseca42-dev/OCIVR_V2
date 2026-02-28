@@ -2,7 +2,7 @@ package pt.ocivr.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
 class TodosSitesActivity : AppCompatActivity() {
@@ -11,21 +11,16 @@ class TodosSitesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_todos_sites)
 
-        val btnRedeMovel = findViewById<Button>(R.id.btnRedeMovel)
-        val btnRedeSiresp = findViewById<Button>(R.id.btnRedeSiresp)
-        val btnRedeFixa = findViewById<Button>(R.id.btnRedeFixa)
-
-        btnRedeMovel.setOnClickListener {
+        findViewById<View>(R.id.btnRedeMovel).setOnClickListener {
             startActivity(Intent(this, PesquisaRedeMovelActivity::class.java))
         }
 
-        btnRedeSiresp.setOnClickListener {
+        findViewById<View>(R.id.btnRedeSiresp).setOnClickListener {
             startActivity(Intent(this, PesquisaRedeSirespActivity::class.java))
         }
-        btnRedeFixa.setOnClickListener {
+
+        findViewById<View>(R.id.btnRedeFixa).setOnClickListener {
             startActivity(Intent(this, PesquisaRedeFixaActivity::class.java))
         }
     }
 }
-
-

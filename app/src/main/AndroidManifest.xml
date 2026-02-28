@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- 🔹 Permissão para usar Internet -->
+
+    <!-- 🔹 Permissões -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
+    <!-- 🔹 App SouMEO (abre app externa) -->
     <queries>
         <package android:name="pt.meo.and.soumeo" />
     </queries>
-
-
-
 
     <application
         android:allowBackup="true"
@@ -21,30 +19,45 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OCIVR">
+        android:theme="@style/Theme.OCIVR"
+        android:usesCleartextTraffic="true">
 
+        <!-- 🔹 Ecrã Principal (LAUNCHER) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-
+        <!-- 🔹 Restantes Activities -->
         <activity
-            android:name=".AgendamentosTesteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PesquisaRedeFixaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PesquisaRedeSirespActivity"
+            android:name=".ConfiguracoesActivity"
             android:exported="false" />
         <activity
             android:name=".TodosSitesActivity"
             android:exported="false" />
         <activity
-            android:name=".PesquisaRedeMovelActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ConfiguracoesActivity"
+            android:name=".AgendamentosTesteActivity"
             android:exported="false" />
         <activity
             android:name=".PesquisaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PesquisaRedeMovelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PesquisaRedeSirespActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PesquisaRedeFixaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CadastroActivity"
             android:exported="false" />
         <activity
             android:name=".Rede54Activity"
@@ -55,18 +68,7 @@
         <activity
             android:name=".Rede76Activity"
             android:exported="false" />
-        <activity
-            android:name=".CadastroActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

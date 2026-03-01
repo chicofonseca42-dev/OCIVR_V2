@@ -5,37 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:strokeColor="#4DD0E1"
-    app:strokeWidth="1.5dp">
+    app:cardCornerRadius="6dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#90A4AE"
+    app:strokeWidth="0dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textTrabalho"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="#1A2744">
-
-        <!-- Barra lateral ciano -->
-        <View
-            android:layout_width="3dp"
-            android:layout_height="match_parent"
-            android:background="#4DD0E1"
-            android:layout_marginEnd="14dp"/>
-
-        <!-- Texto do trabalho -->
-        <TextView
-            android:id="@+id/textTrabalho"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:textColor="#B0BEC5"
-            android:lineSpacingExtra="4dp"/>
-
-    </LinearLayout>
+        android:textSize="14sp"
+        android:textColor="#1E293B"
+        android:lineSpacingExtra="6dp"/>
 
 </com.google.android.material.card.MaterialCardView>

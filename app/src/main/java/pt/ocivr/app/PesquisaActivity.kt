@@ -175,10 +175,12 @@ class PesquisaActivity : AppCompatActivity() {
         rede: String
     ): CardView {
 
+
+// 🎨 Cor do card de resultado
         val card = CardView(this).apply {
             radius = 24f
             cardElevation = 12f
-            setCardBackgroundColor(Color.WHITE)
+            setCardBackgroundColor(Color.parseColor("#C8C8C8"))
         }
 
         val params = LinearLayout.LayoutParams(

@@ -23,19 +23,23 @@ class TrabalhosAdapter(
     override fun onBindViewHolder(holder: TrabalhoViewHolder, position: Int) {
         val texto = listaTrabalhos[position]
         if (texto.trim() == "T") {
+            // ─── Card TARDE ───
             holder.textTrabalho.text = holder.itemView.context.getString(R.string.turno_tarde)
             holder.textTrabalho.setTypeface(null, android.graphics.Typeface.BOLD)
             holder.textTrabalho.textSize = 16f
             holder.textTrabalho.gravity = android.view.Gravity.CENTER
-            holder.itemView.setBackgroundColor("#F2F2F2".toColorInt())
-            holder.itemView.setPadding(16, 16, 16, 16)
+            holder.textTrabalho.setTextColor("#333333".toColorInt())
+            // 🎨 Cor do card
+            holder.itemView.setBackgroundColor("#C8C8C8".toColorInt())
         } else {
+            // ─── Cards normais ───
             holder.textTrabalho.text = texto
             holder.textTrabalho.setTypeface(null, android.graphics.Typeface.NORMAL)
             holder.textTrabalho.textSize = 14f
             holder.textTrabalho.gravity = android.view.Gravity.START
-            holder.itemView.setBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
-            holder.itemView.setPadding(32, 32, 32, 32)
+            holder.textTrabalho.setTextColor("#1E293B".toColorInt())
+            // 🎨 Cor do card
+            holder.itemView.setBackgroundColor("#D8E0E8".toColorInt())
         }
     }
 

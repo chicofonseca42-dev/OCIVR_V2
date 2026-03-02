@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity() {
         click(R.id.cardPrevencao) { startActivity(Intent(this, PrevencaoActivity::class.java)) }
 
         // 💻 CPL Web
-        click(R.id.cardCplWeb) { abrirUrl("https://cplweb.meo.pt") }
+        click(R.id.cardCplWeb) { abrirUrl("http://10.18.25.100:91/Index.aspx") }
 
         // 📡 RETA/SGA
-        click(R.id.cardRetaSga) { abrirUrl("https://reta.meo.pt") }
+        click(R.id.cardRetaSga) { abrirUrl("http://sga.telecom.pt/cgi-bin/sgaffm.cgi/SDA1?&SZ=&ALM=Lista+de+Alarmes") }
 
         // 📱 SouMEO
         click(R.id.cardSouMeo) {

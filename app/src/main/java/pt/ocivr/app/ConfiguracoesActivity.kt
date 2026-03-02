@@ -65,7 +65,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
         // 📊 NETQ (substituiu o SouMEO)
         click(R.id.btnSouMeo) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://netq.meo.pt")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://iamoss.telecom.pt/idp/login")))
         }
     }
 

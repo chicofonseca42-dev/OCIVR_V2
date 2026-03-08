@@ -33,7 +33,7 @@ class AgendamentosTesteActivity : AppCompatActivity() {
     }
 
     private fun buscarDados() {
-        val url = "https://docs.google.com/spreadsheets/d/$sheetId/gviz/tq?tqx=out:json&sheet=Semana%20atual"
+        val url = "https://docs.google.com/spreadsheets/d/$sheetId/gviz/tq?tqx=out:json&gid=0"
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
         Thread {
@@ -43,12 +43,16 @@ class AgendamentosTesteActivity : AppCompatActivity() {
                 if (body != null) {
                     val json = body.substring(body.indexOf("{"), body.lastIndexOf("}") + 1)
                     val rows = JSONObject(json).getJSONObject("table").getJSONArray("rows")
+
+
                     val dadosPorDia = MutableList(7) { mutableListOf<String>() }
-                    for (i in 4 until rows.length()) {
+                    for (i in 0 until rows.length()) {
                         val cells = rows.getJSONObject(i).getJSONArray("c")
                         for (col in 0 until minOf(7, cells.length())) {
                             val valor = cells.optJSONObject(col)?.opt("v")?.toString() ?: ""
-                            if (valor.isNotBlank() && valor != "null") dadosPorDia[col].add(valor)
+                            if (valor.isBlank() || valor == "null") continue
+                            if (valor.trim() == "M") continue
+                            dadosPorDia[col].add(valor)
                         }
                     }
                     runOnUiThread { atualizarAdapter(dadosPorDia) }
@@ -56,6 +60,7 @@ class AgendamentosTesteActivity : AppCompatActivity() {
             } catch (e: Exception) { Log.e("SHEET", "Erro: ${e.message}") }
         }.start()
     }
+
 
     private fun atualizarAdapter(dados: List<List<String>>) {
         val viewPager = findViewById<ViewPager2>(R.id.viewPagerDias)

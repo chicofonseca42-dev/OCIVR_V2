@@ -46,7 +46,7 @@ class AgendamentosTesteActivity : AppCompatActivity() {
 
 
                     val dadosPorDia = MutableList(7) { mutableListOf<String>() }
-                    for (i in 0 until rows.length()) {
+                    for (i in 4 until rows.length()) {
                         val cells = rows.getJSONObject(i).getJSONArray("c")
                         for (col in 0 until minOf(7, cells.length())) {
                             val valor = cells.optJSONObject(col)?.opt("v")?.toString() ?: ""
@@ -60,7 +60,6 @@ class AgendamentosTesteActivity : AppCompatActivity() {
             } catch (e: Exception) { Log.e("SHEET", "Erro: ${e.message}") }
         }.start()
     }
-
 
     private fun atualizarAdapter(dados: List<List<String>>) {
         val viewPager = findViewById<ViewPager2>(R.id.viewPagerDias)

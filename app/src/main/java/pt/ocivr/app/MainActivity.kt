@@ -36,10 +36,24 @@ class MainActivity : AppCompatActivity() {
         atualizarBasesBackground()
 
         // ⚙️ Configurações
-        click(R.id.btnConfiguracoes) { startActivity(Intent(this, ConfiguracoesActivity::class.java)) }
+        click(R.id.btnConfiguracoes) {
+            startActivity(
+                Intent(
+                    this,
+                    ConfiguracoesActivity::class.java
+                )
+            )
+        }
 
         // 📅 Semana Atual
-        click(R.id.cardSemanaAtual) { startActivity(Intent(this, AgendamentosTesteActivity::class.java)) }
+        click(R.id.cardSemanaAtual) {
+            startActivity(
+                Intent(
+                    this,
+                    AgendamentosTesteActivity::class.java
+                )
+            )
+        }
 
         // 🌐 Todos os Sites
         click(R.id.cardTodosSites) { startActivity(Intent(this, TodosSitesActivity::class.java)) }
@@ -67,8 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 📈 Agendamentos
-        click(R.id.cardAgendamentos) { abrirUrl("https://docs.google.com/spreadsheets/d/1t3cZeesYG4JSvl9hoiTvMZWK5lEPpd1IHHKnS0-ZrsQ/edit#gid=1051320260") }
+        click(R.id.cardAgendamentos) { abrirUrl("https://docs.google.com/spreadsheets/d/1t3cZeesYG4JSvl9hoiTvMZWK5lEPpd1IHHKnS0-ZrsQ/edit#gid=1804031589") }
     }
+
 
     // ─────────────────────────────────────────
     // Atualiza as 4 bases em background

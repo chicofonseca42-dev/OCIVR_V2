@@ -31,5 +31,12 @@ class CadastroActivity : AppCompatActivity() {
                 Intent(this, Rede76Activity::class.java)
             )
         }
+
+        // 🔹 OLT's
+        findViewById<View>(R.id.olts).setOnClickListener {
+            startActivity(
+                Intent(this, PesquisaOLTActivity::class.java)
+            )
+        }
     }
 }

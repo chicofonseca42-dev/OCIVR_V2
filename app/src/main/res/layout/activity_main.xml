@@ -66,6 +66,8 @@
             android:paddingTop="120dp"
             android:paddingBottom="30dp">
 
+
+
             <!-- CARD Semana Atual -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSemanaAtual"

@@ -71,6 +71,9 @@
         <activity
             android:name=".Rede76Activity"
             android:exported="false" />
+        <activity
+            android:name=".PesquisaOLTActivity"
+            android:exported="false" />
 
     </application>
 

@@ -33,4 +33,7 @@
     <string name="ultima_atualizacao">Última atualização: %1$s</string>
     <string name="semana_atual">Semana Atual</string>
     <string name="turno_tarde">TARDE</string>
+    <string name="hint_siresp">Código do Site ou Localidade</string>
+    <string name="hint_rede_fixa">ACL</string>
+    <string name="hint_rede_movel">Código do Site</string>
 </resources>

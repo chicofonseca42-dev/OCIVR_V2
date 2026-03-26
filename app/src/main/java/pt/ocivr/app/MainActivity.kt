@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         // 🔄 Atualizar bases em background
         atualizarBasesBackground()
 
+
         // ⚙️ Configurações
         click(R.id.btnConfiguracoes) {
             startActivity(

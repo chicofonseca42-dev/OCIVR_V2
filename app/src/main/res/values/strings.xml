@@ -35,5 +35,5 @@
     <string name="turno_tarde">TARDE</string>
     <string name="hint_siresp">Código do Site ou Localidade</string>
     <string name="hint_rede_fixa">ACL</string>
-    <string name="hint_rede_movel">Código do Site</string>
+    <string name="hint_rede_movel">Código do Site ou Concelho</string>
 </resources>

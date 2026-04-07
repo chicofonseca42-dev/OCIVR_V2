@@ -53,10 +53,10 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
 
             container.removeAllViews()
 
-            buscarRedeMovel(termoDigitado) { resultado ->
+            buscarRedeMovel(termoDigitado) { resultados ->
                 runOnUiThread {
 
-                    if (resultado.isEmpty()) {
+                    if (resultados.isEmpty()) {
                         Toast.makeText(
                             this,
                             getString(R.string.site_nao_encontrado),
@@ -65,15 +65,18 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
                         return@runOnUiThread
                     }
 
-                    container.addView(
-                        criarCard(
-                            resultado["ID"] ?: "",
-                            resultado["NOME"] ?: "",
-                            resultado["LAT"] ?: "",
-                            resultado["LON"] ?: "",
-                            resultado["MAPS"] ?: ""
+                    for (resultado in resultados) {
+                        container.addView(
+                            criarCard(
+                                resultado["ID"] ?: "",
+                                resultado["NOME"] ?: "",
+                                resultado["LAT"] ?: "",
+                                resultado["LON"] ?: "",
+                                resultado["MAPS"] ?: "",
+                                resultado["CONCELHO"] ?: ""
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -81,7 +84,7 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
 
     private fun buscarRedeMovel(
         termo: String,
-        callback: (Map<String, String>) -> Unit
+        callback: (List<Map<String, String>>) -> Unit
     ) {
 
         val cacheLocal = lerCache()
@@ -97,7 +100,7 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
             .enqueue(object : Callback {
 
                 override fun onFailure(call: Call, e: IOException) {
-                    callback(emptyMap())
+                    callback(emptyList())
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -108,7 +111,7 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
                         guardarCache(body)
                         processarCSV(body, termo, callback)
                     } else {
-                        callback(emptyMap())
+                        callback(emptyList())
                     }
                 }
             })
@@ -117,8 +120,10 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
     private fun processarCSV(
         body: String,
         termo: String,
-        callback: (Map<String, String>) -> Unit
+        callback: (List<Map<String, String>>) -> Unit
     ) {
+        val termoLower = termo.trim().lowercase()
+        val resultados = mutableListOf<Map<String, String>>()
 
         for (linha in body.split("\n").drop(1)) {
 
@@ -126,24 +131,33 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
                 Regex(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")
             ).map { it.replace("\"", "").trim() }
 
-            if (limpa.size >= 5 &&
-                limpa[0].equals(termo.trim(), ignoreCase = true)
-            ) {
+            if (limpa.size >= 5) {
+                val id = limpa[0]
+                val nome = limpa[1]
+                val lat = limpa[2]
+                val lon = limpa[3]
+                val maps = limpa[4]
+                val concelho = if (limpa.size >= 6) limpa[5] else ""
 
-                callback(
-                    mapOf(
-                        "ID" to limpa[0],
-                        "NOME" to limpa[1],
-                        "LAT" to limpa[2],
-                        "LON" to limpa[3],
-                        "MAPS" to limpa[4]
+                // Pesquisa por ID COD SITE ou por Concelho
+                if (id.equals(termoLower, ignoreCase = true) ||
+                    concelho.equals(termoLower, ignoreCase = true)
+                ) {
+                    resultados.add(
+                        mapOf(
+                            "ID" to id,
+                            "NOME" to nome,
+                            "LAT" to lat,
+                            "LON" to lon,
+                            "MAPS" to maps,
+                            "CONCELHO" to concelho
+                        )
                     )
-                )
-                return
+                }
             }
         }
 
-        callback(emptyMap())
+        callback(resultados)
     }
 
     private fun guardarCache(conteudo: String) {
@@ -165,7 +179,8 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
         nome: String,
         lat: String,
         lon: String,
-        mapsLink: String
+        mapsLink: String,
+        concelho: String
     ): CardView {
 
         val card = CardView(this).apply {
@@ -189,6 +204,9 @@ class PesquisaRedeMovelActivity : AppCompatActivity() {
 
         layout.addView(criarTexto("ID: $id", true))
         layout.addView(criarTexto("Nome: $nome"))
+        if (concelho.isNotEmpty()) {
+            layout.addView(criarTexto("Concelho: $concelho"))
+        }
         layout.addView(criarTexto("Latitude: $lat"))
         layout.addView(criarTexto("Longitude: $lon"))
 

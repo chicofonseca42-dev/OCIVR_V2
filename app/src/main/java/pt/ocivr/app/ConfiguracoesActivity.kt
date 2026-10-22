@@ -4,10 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -63,9 +68,79 @@ class ConfiguracoesActivity : AppCompatActivity() {
             verificarEstadoBase()
         }
 
-        // 📊 NETQ (substituiu o SouMEO)
+        // 🔑 Janela para configurar ou atualizar a Password corporativa única
+        fun abrirJanelaCredenciais() {
+            val (userAtual, passAtual) = Credenciais.obter(this)
+
+            val layout = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(60, 40, 60, 20)
+            }
+
+            val inputUser = EditText(this).apply {
+                hint = "Utilizador de rede (ex: z880914)"
+                setText(userAtual)
+            }
+
+            val inputPass = EditText(this).apply {
+                hint = "Palavra-passe de rede"
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                setText(passAtual)
+            }
+
+            // Opção para alternar entre ver/ocultar a password
+            val checkMostrarPass = CheckBox(this).apply {
+                text = "Mostrar palavra-passe"
+                setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        inputPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                    } else {
+                        inputPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    }
+                    inputPass.setSelection(inputPass.text.length)
+                }
+            }
+
+            layout.addView(inputUser)
+            layout.addView(inputPass)
+            layout.addView(checkMostrarPass)
+
+            AlertDialog.Builder(this)
+                .setTitle("Credenciais de Rede")
+                .setMessage("Esta palavra-passe será usada no NETQ, SouMEO e CPL Web:")
+                .setView(layout)
+                .setPositiveButton("Guardar") { _, _ ->
+                    val u = inputUser.text.toString().trim()
+                    val p = inputPass.text.toString().trim()
+                    if (u.isNotEmpty() && p.isNotEmpty()) {
+                        Credenciais.guardar(this, u, p)
+                        Toast.makeText(this, "Credenciais guardadas com sucesso!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Preencha utilizador e palavra-passe", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        }
+
+        // 📊 NETQ: se não houver password, pede primeiro; se houver, abre de imediato
         click(R.id.btnSouMeo) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://iamoss.telecom.pt/idp/login")))
+            if (!Credenciais.temCredenciais(this)) {
+                Toast.makeText(this, "Configure primeiro as credenciais!", Toast.LENGTH_SHORT).show()
+                abrirJanelaCredenciais()
+            } else {
+                val intent = Intent(this, WebViewActivity::class.java).apply {
+                    putExtra("url", "https://netq.telecom.pt")
+                }
+                startActivity(intent)
+            }
+        }
+
+        // ⚙️ Toque longo no botão NETQ (manter premido 1 segundo): abre a janela para alterar a password
+        findViewById<View>(R.id.btnSouMeo)?.setOnLongClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            abrirJanelaCredenciais()
+            true
         }
     }
 
@@ -149,7 +224,8 @@ class ConfiguracoesActivity : AppCompatActivity() {
         }
         try {
             val linhas = openFileInput(nomeFicheiroCache).bufferedReader().readLines()
-            txtTotalRegistos.text = "Circuitos · ${if (linhas.isNotEmpty()) linhas.size - 1 else 0} registos"
+            val total = if (linhas.isNotEmpty()) linhas.size - 1 else 0
+            txtTotalRegistos.text = "Circuitos · $total registos"
         } catch (e: Exception) {
             txtTotalRegistos.text = "Circuitos · --"
         }

@@ -35,25 +35,14 @@ class MainActivity : AppCompatActivity() {
         // 🔄 Atualizar bases em background
         atualizarBasesBackground()
 
-
         // ⚙️ Configurações
         click(R.id.btnConfiguracoes) {
-            startActivity(
-                Intent(
-                    this,
-                    ConfiguracoesActivity::class.java
-                )
-            )
+            startActivity(Intent(this, ConfiguracoesActivity::class.java))
         }
 
         // 📅 Semana Atual
         click(R.id.cardSemanaAtual) {
-            startActivity(
-                Intent(
-                    this,
-                    AgendamentosTesteActivity::class.java
-                )
-            )
+            startActivity(Intent(this, AgendamentosTesteActivity::class.java))
         }
 
         // 🌐 Todos os Sites
@@ -68,23 +57,18 @@ class MainActivity : AppCompatActivity() {
         // 🛡️ Prevenção
         click(R.id.cardPrevencao) { startActivity(Intent(this, PrevencaoActivity::class.java)) }
 
-        // 💻 CPL Web
-        click(R.id.cardCplWeb) { abrirUrl("http://10.18.25.100:91/Index.aspx") }
+        // 💻 CPL Web (abre dentro da app com login automático)
+        click(R.id.cardCplWeb) { abrirNoApp("http://10.18.25.100:91/Index.aspx") }
 
-        // 📡 RETA/SGA
+        // 📡 RETA/SGA (continua no browser)
         click(R.id.cardRetaSga) { abrirUrl("http://sga.telecom.pt/cgi-bin/sgaffm.cgi/SDA1?&SZ=10&ALM=Lista+de+Alarmes") }
 
-        // 📱 SouMEO
-        click(R.id.cardSouMeo) {
-            val intent = packageManager.getLaunchIntentForPackage("pt.meo.and.soumeo")
-            if (intent != null) startActivity(intent)
-            else abrirUrl("https://soumeo.meo.pt")
-        }
+        // 📱 SouMEO (abre dentro da app com login automático)
+        click(R.id.cardSouMeo) { abrirNoApp("https://eu.telecom.pt/irj/portal") }
 
         // 📈 Agendamentos
         click(R.id.cardAgendamentos) { abrirUrl("https://docs.google.com/spreadsheets/d/1t3cZeesYG4JSvl9hoiTvMZWK5lEPpd1IHHKnS0-ZrsQ/edit#gid=1804031589") }
     }
-
 
     // ─────────────────────────────────────────
     // Atualiza as 4 bases em background
@@ -130,5 +114,12 @@ class MainActivity : AppCompatActivity() {
     // ─────────────────────────────────────────
     private fun abrirUrl(url: String) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
+
+    // ─────────────────────────────────────────
+    // Abrir URL dentro da app (WebView com login automático)
+    // ─────────────────────────────────────────
+    private fun abrirNoApp(url: String) {
+        startActivity(Intent(this, WebViewActivity::class.java).putExtra("url", url))
     }
 }

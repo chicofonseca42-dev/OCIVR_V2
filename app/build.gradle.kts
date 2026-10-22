@@ -11,8 +11,8 @@ android {
         applicationId = "pt.ocivr.app"
         minSdk = 24
         targetSdk = 34   // 👈 ALTERADO
-        versionCode = 7
-        versionName = "2.2"
+        versionCode = 9
+        versionName = "2.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

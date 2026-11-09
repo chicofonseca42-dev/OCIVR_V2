@@ -131,6 +131,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, WebViewActivity::class.java).apply {
                     putExtra("url", "https://netq.telecom.pt")
+                    putExtra("titulo", "NETQ")
                 }
                 startActivity(intent)
             }

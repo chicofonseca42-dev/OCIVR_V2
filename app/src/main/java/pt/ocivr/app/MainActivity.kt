@@ -58,13 +58,13 @@ class MainActivity : AppCompatActivity() {
         click(R.id.cardPrevencao) { startActivity(Intent(this, PrevencaoActivity::class.java)) }
 
         // 💻 CPL Web (abre dentro da app com login automático)
-        click(R.id.cardCplWeb) { abrirNoApp("http://10.18.25.100:91/Index.aspx") }
+        click(R.id.cardCplWeb) { abrirNoApp("http://10.18.25.100:91/Index.aspx", "CPL Web") }
 
         // 📡 RETA/SGA (continua no browser)
         click(R.id.cardRetaSga) { abrirUrl("http://sga.telecom.pt/cgi-bin/sgaffm.cgi/SDA1?&SZ=10&ALM=Lista+de+Alarmes") }
 
         // 📱 SouMEO (abre dentro da app com login automático)
-        click(R.id.cardSouMeo) { abrirNoApp("https://eu.telecom.pt/irj/portal") }
+        click(R.id.cardSouMeo) { abrirNoApp("https://eu.telecom.pt/irj/portal", "SouMEO") }
 
         // 📈 Agendamentos
         click(R.id.cardAgendamentos) { abrirUrl("https://docs.google.com/spreadsheets/d/1t3cZeesYG4JSvl9hoiTvMZWK5lEPpd1IHHKnS0-ZrsQ/edit#gid=1804031589") }
@@ -119,7 +119,10 @@ class MainActivity : AppCompatActivity() {
     // ─────────────────────────────────────────
     // Abrir URL dentro da app (WebView com login automático)
     // ─────────────────────────────────────────
-    private fun abrirNoApp(url: String) {
-        startActivity(Intent(this, WebViewActivity::class.java).putExtra("url", url))
+    private fun abrirNoApp(url: String, titulo: String = "") {
+        startActivity(Intent(this, WebViewActivity::class.java).apply {
+            putExtra("url", url)
+            if (titulo.isNotEmpty()) putExtra("titulo", titulo)
+        })
     }
 }
